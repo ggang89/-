@@ -15,20 +15,21 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
-    let counter =0;
-    function countUp(){
-      counter =counter +1;
-     render();
+
+    function App() {
+      const [counter, setCounter] = React.useState(0);
+      //const 첫번째 값 = 우리가 담을 data
+      //const 두번째 값 = data 값을 바꿀 때 사용할 함수
+      const onClick = () => {
+        setCounter(counter + 1);
+      };
+      return (
+        <div>
+          <h3>Total clicks: {counter}</h3>
+          <button onClick={onClick}>Click me</button>
+        </div>
+      );
     }
-    function render(){
-      ReactDOM.render(<Container />, root);
-    }
-    const Container = () => (
-      <div>
-        <h3>Total clicks: {counter}</h3>
-        <button onClick={countUp}>Click me</button>
-      </div>
-    );
-    render();
+    ReactDOM.render(<App />, root);
   </script>
 </html>
