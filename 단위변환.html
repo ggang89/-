@@ -44,6 +44,7 @@
               type="number"
               onChange={onChange}
               disabled={flipped === true}
+             
             />
           </div>
           <div>
@@ -54,6 +55,7 @@
               placeholder="Hours"
               type="number"
               disabled={flipped === false}
+              //disabled은 input창 비활성화 기능 => flipped은 기본(false)이면 시간창은 보기만 가능
               onChange={onChange}
             />
           </div>
@@ -63,26 +65,42 @@
       );
     }
     function KmToMiles() {
-      const [kmeter,setKmeter] =React.useState(0);
+      const [kmeter, setKmeter] = React.useState(0);
+      const [invert, setInvert] = React.useState(false);
+
+      const onChange = (event) => {
+        setKmeter(event.target.value);
+      };
+      const reset = () => setKmeter(0);
+      const inverted = () => {
+        reset();
+        setInvert((current) => !current);
+      };
       return (
         <div>
           <h3>KM TO M</h3>
           <div>
-            <label htmlFor="km">Kilometer</label>
-            <input
-            value={}
-            id="km"
-            type="number"
-            onChange={onchane}/>
-          </div>
-          <div>
             <label htmlFor="meter">meter</label>
             <input
-            value={}
-            id="meter"
-            type="number"
-            onChange={onchane}/>
-            </div>
+              value={invert ? kmeter * 1000 : kmeter}
+              id="meter"
+              type="number"
+              onChange={onChange}
+              disabled={invert === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="km">Kilometer</label>
+            <input
+              value={invert ? kmeter : kmeter / 1000}
+              id="km"
+              type="number"
+              onChange={onChange}
+              disabled={invert === false}
+            />
+          </div>
+          <button onCLick={reset}>Reset</button>
+          <button onClick={inverted}>Invert</button>
         </div>
       );
     }
