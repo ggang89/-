@@ -18,11 +18,13 @@
   ></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ banana, big }) {
+    function Btn({ banana, big, changeValue }) {
       // function Btn(props) {
       // {props.banana}
+      //왜 props마다 연결방법이 다른가. {banana} big은 style에 넣고...changeValue도 따로해주노
       return (
         <button
+          onClick={changeValue}
           style={{
             backgroundColor: "tomato",
             color: "white",
@@ -36,12 +38,20 @@
         </button>
       );
     }
-
+    const MemorizedBtn = React.memo(Btn);
+    // react Memo : 변경될 필요가 없는(props가 변경되지 않은) 컴포넌트는 기억하고 다시 렌더링 하지 않도록 함
     function App() {
+      const [value, setValue] = React.useState("Save Change");
+      //부모 컴포넌트는 state(상태)변경이 되고, 그때 return 안의 내용이 새로고침된다
+      const changeValue = () => setValue("Revert Changes");
+      // props값으로 text,불값,함수도 사용할 수 있다
       return (
         <div>
-          <Btn banana="Save Change" big={true} />
+          <Btn banana={value} changeValue={changeValue} big={true} />
           <Btn banana="Continue" big={false} />
+
+          <MemorizedBtn banana={value} changeValue={changeValue} big={true} />
+          <MemorizedBtn banana="Continue" big={false} />
         </div>
       );
     }
